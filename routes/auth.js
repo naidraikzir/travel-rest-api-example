@@ -37,7 +37,7 @@ module.exports = (server) => {
    */
   server.route({
     method: 'POST',
-    path: '/authenticate',
+    path: '/v1/authenticate',
     config: {
       auth: false,
       cors

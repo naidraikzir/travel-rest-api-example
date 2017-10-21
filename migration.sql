@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.17)
 # Database: nestyards
-# Generation Time: 2017-10-21 12:35:52 +0000
+# Generation Time: 2017-10-21 14:09:34 +0000
 # ************************************************************
 
 
@@ -87,7 +87,8 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL DEFAULT '',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `users_email_unique` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
