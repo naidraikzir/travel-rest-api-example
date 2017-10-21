@@ -14,7 +14,6 @@ $ npm install
 
 Copy `.env.example` to `.env` and set variables
 ```bash
-NODE_ENV=
 DB_HOST=
 DB_DATABASE=
 DB_USERNAME=
