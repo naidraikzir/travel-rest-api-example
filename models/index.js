@@ -23,6 +23,7 @@ models
  * Associations
  */
 db.Airport.belongsTo(db.City, {
+  as: 'city',
   foreignKey: 'city_id'
 })
 db.Flight.belongsTo(db.Airport, {

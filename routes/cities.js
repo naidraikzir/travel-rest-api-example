@@ -9,7 +9,7 @@ module.exports = (server) => {
    * @apiName GetCities
    * @apiGroup Cities
    * @apiVersion 0.1.0
-   * @apiPermission none
+   * @apiPermission token
    *
    * @apiSuccess {Object[]} cities Collection of cities.
    */
@@ -17,7 +17,6 @@ module.exports = (server) => {
     method: 'GET',
     path: '/v1/cities',
     config: {
-      auth: false,
       cors
     },
     handler: async (request, reply) => {
@@ -35,7 +34,7 @@ module.exports = (server) => {
    * @apiName PostCity
    * @apiGroup Cities
    * @apiVersion 0.1.0
-   * @apiPermission none
+   * @apiPermission token
    *
    * @apiParam {String} name City's Name.
    *
@@ -45,7 +44,6 @@ module.exports = (server) => {
     method: 'POST',
     path: '/v1/cities',
     config: {
-      auth: false,
       cors
     },
     handler: async (request, reply) => {

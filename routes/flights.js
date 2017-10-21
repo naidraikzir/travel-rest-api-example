@@ -5,29 +5,32 @@ const { cors } = require('../config')
 module.exports = (server) => {
 
   /**
-   * @api {get} /airports Get airports
-   * @apiName GetAirports
-   * @apiGroup Airports
+   * @api {get} /flights Get flights
+   * @apiName GetFlights
+   * @apiGroup Flights
    * @apiVersion 0.1.0
    * @apiPermission token
    *
-   * @apiSuccess {Object[]} airports Collection of airports.
+   * @apiSuccess {Object[]} flights Collection of flights.
    */
   server.route({
     method: 'GET',
-    path: '/v1/airports',
+    path: '/v1/flights',
     config: {
       cors
     },
     handler: async (request, reply) => {
       try {
-        const Airports = await db.Airport.all({
+        const Flights = await db.Flight.all({
           include: [{
-            model: db.City,
-            as: 'city'
+            model: db.Airport,
+            as: 'origin'
+          }, {
+            model: db.Airport,
+            as: 'destination'
           }]
         })
-        reply(Airports)
+        reply(Flights)
       } catch (err) {
         reply(Boom.conflict(err.errors[0].message))
       }
@@ -35,42 +38,44 @@ module.exports = (server) => {
   })
 
   /**
-   * @api {post} /airports Create a airport
-   * @apiName PostAirport
-   * @apiGroup Airports
+   * @api {post} /flights Create a flight
+   * @apiName PostFlight
+   * @apiGroup Flights
    * @apiVersion 0.1.0
    * @apiPermission token
    *
-   * @apiParam {String} name Airport's Name.
+   * @apiParam {String} name Flight's Name.
    *
-   * @apiSuccess {Object} airport Created airport.
+   * @apiSuccess {Object} flight Created flight.
    * 
-   * @apiError RequireCityId City id is required.
-   * @apiError CityIdNotExist City id not exist.
+   * @apiError RequireAirportId Airport id is required.
+   * @apiError AirportIdNotExist Airport id not exist.
+   * @apiError RequireDepartureDate Departure date is required.
    * 
    * @apiErrorExample {json} Error-Response:
    *   HTTP/1.1 422 Unprocessable Entity
    *   {
    *     "statusCode": 422,
    *     "error": "Unprocessable Entity",
-   *     "message": "City is required"
+   *     "message": "Airport is required"
    *   }
    */
   server.route({
     method: 'POST',
-    path: '/v1/airports',
+    path: '/v1/flights',
     config: {
       cors
     },
     handler: async (request, reply) => {
       try {
-        const Airport = await db.Airport.create(request.payload)
-        reply(Airport)
+        const Flight = await db.Flight.create(request.payload)
+        reply(Flight)
       } catch (err) {
+        console.log(err)
         if (err.errors) {
           reply(Boom.badData(err.errors[0].message))
         } else if (err.parent.errno === 1452) {
-          reply(Boom.badData('City id not exist'))
+          reply(Boom.badData('Airport id not exist'))
         }
       }
     }
