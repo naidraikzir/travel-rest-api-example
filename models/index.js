@@ -19,6 +19,21 @@ models
     db[model.name] = model
   })
 
+/**
+ * Associations
+ */
+db.Airport.belongsTo(db.City, {
+  foreignKey: 'city_id'
+})
+db.Flight.belongsTo(db.Airport, {
+  as: 'origin',
+  foreignKey: 'origin_id'
+})
+db.Flight.belongsTo(db.Airport, {
+  as: 'destination',
+  foreignKey: 'destination_id'
+})
+
 db.sequelize = sequelize
 db.Sequelize = Sequelize
 
